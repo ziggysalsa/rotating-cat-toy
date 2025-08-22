@@ -1,4 +1,5 @@
 #include "pico/stdlib.h"
+#include <stdlib.h> 
 
 #define IN1 18
 #define IN2 19
@@ -31,13 +32,15 @@ int main() {
 
     while (true) {
 
-        // Do one revolution 
-        for (int s = 0; s < STEPS_PER_REV; s++) {
-            for (int i = 0; i < 4; i++) { 
-                gpio_put(PINS[i], SEQ[step_idx][i]);
+        int num_steps = rand() % (STEPS_PER_REV + 1);  // want number of steps to always be fewer than a full revolution
+
+        // Go the random number of steps
+        for (int i = 0; i < num_steps; i++) {
+            for (int j = 0; j < 4; j++) { 
+                gpio_put(PINS[j], SEQ[step_idx][j]);
             }
             sleep_ms(DELAY_MS);
-            step_idx = (step_idx + direction) & 7;
+            step_idx = (step_idx + direction) & 7; // proceed to next step
         }
 
         // Reverse direction
