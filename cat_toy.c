@@ -1,15 +1,18 @@
 #include "pico/stdlib.h"
+#include "hardware/adc.h"
 #include <stdlib.h> 
 
-#define IN1 18
-#define IN2 19
-#define IN3 20
-#define IN4 21           
-#define STEPS_PER_REV 2048  
-#define STEP_DELAY_MS 4
-#define PAUSE_PROBABILITY 3
-#define PAUSE_LOWER_BOUND_MS 1000
-#define PAUSE_UPPER_BOUND_MS 5000
+#define POT 28 // ADC pin for pot
+#define IN1 18 // Motor IN1 pin
+#define IN2 19 // Motor IN2 pin
+#define IN3 20 // Motor IN3 pin
+#define IN4 21 // Motor IN4 pin
+#define STEPS_PER_REV 2048  // Number of steps for full rotation of motor
+#define PAUSE_PROBABILITY 3 // Probability of pausing between rotations ( P = 1/PAUSE_PROBABILITY)
+#define PAUSE_MS_MIN 1000 // Min pause length (ms)
+#define PAUSE_MS_MAX 5000 // Max pause length (ms)
+#define STEP_DELAY_US_MIN 200 // Min step delay for motor (us)
+#define STEP_DELAY_US_MAX 4000 // Max step delay for motor (us)
 
 static const uint PINS[4] = {IN1, IN2, IN3, IN4};
 
@@ -24,7 +27,12 @@ int main() {
     // Sets up I/O
     stdio_init_all();
 
-    // Enables pins for use and sets them as outputs
+    // Set up ADC for pot
+    adc_init();
+    adc_gpio_init(POT);
+    adc_select_input(2); // pin 28 is ADC2
+
+    // Enables motor pins for use and sets them as outputs
     for (int i = 0; i < 4; i++) { 
         gpio_init(PINS[i]); 
         gpio_set_dir(PINS[i], true); 
@@ -33,22 +41,32 @@ int main() {
     int step_idx = 0; // keep track of which half-step position we're on
     int direction = 1; // 1 is forward, -1 is backward
 
+    uint32_t filtered_adc = adc_read(); // ADC value after filtering, ranges from 0 to 4095. (initialize it so it's not 0 when we start)
+
     while (true) {
 
         int num_steps = rand() % (STEPS_PER_REV + 1);  // want number of steps to always be fewer than a full revolution
 
         // Go a random number of steps
         for (int i = 0; i < num_steps; i++) {
+
+            filtered_adc = (filtered_adc * 7 + adc_read()) / 8; // Read ADC and filter value with EMA filter
+
+            // map filtered ADC value to delay in us
+            uint32_t delay_us = STEP_DELAY_US_MAX - (uint32_t)((STEP_DELAY_US_MAX - STEP_DELAY_US_MIN) * (uint64_t)filtered_adc / 4095);
+
             for (int j = 0; j < 4; j++) { 
                 gpio_put(PINS[j], SEQ[step_idx][j]);
             }
-            sleep_ms(STEP_DELAY_MS);
+
+            sleep_us(delay_us);
+            
             step_idx = (step_idx + direction) & 7; // proceed to next step
         }
 
         // Randomly pause for a random length of time
         if ((rand() % PAUSE_PROBABILITY) == 0) {
-            int pause_ms = PAUSE_LOWER_BOUND_MS + (rand() % (PAUSE_UPPER_BOUND_MS-PAUSE_LOWER_BOUND_MS)); 
+            int pause_ms = PAUSE_MS_MIN + (rand() % (PAUSE_MS_MAX-PAUSE_MS_MIN)); 
             sleep_ms(pause_ms);
         }
 
