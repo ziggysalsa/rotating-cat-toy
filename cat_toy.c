@@ -11,8 +11,8 @@
 #define PAUSE_PROBABILITY 3 // Probability of pausing between rotations ( P = 1/PAUSE_PROBABILITY)
 #define PAUSE_MS_MIN 1000 // Min pause length (ms)
 #define PAUSE_MS_MAX 5000 // Max pause length (ms)
-#define STEP_DELAY_US_MIN 200 // Min step delay for motor (us)
-#define STEP_DELAY_US_MAX 4000 // Max step delay for motor (us)
+#define STEP_DELAY_US_MIN 1000 // Min step delay for motor (us)
+#define STEP_DELAY_US_MAX 6000 // Max step delay for motor (us)
 
 static const uint PINS[4] = {IN1, IN2, IN3, IN4};
 
