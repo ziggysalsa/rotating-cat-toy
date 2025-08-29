@@ -4,9 +4,11 @@ A rotating cat toy similar to the [SmartyKat Hot Pursuit](https://www.chewy.com/
 
 ## Parts
 
+Used these because they're what I had on hand.
+
 - Pi Pico W
 - HW-131 power supply
-- 28BYJ-48 stepper motor and ULN2003A stepper driver board
+- 28BYJ-48 stepper motor and ULN2003A stepper interface board
 - Potentiometer
 
 ## Wiring Diagram
