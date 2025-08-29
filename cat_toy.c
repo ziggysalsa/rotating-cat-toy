@@ -41,7 +41,8 @@ int main() {
     int step_idx = 0; // keep track of which half-step position we're on
     int direction = 1; // 1 is forward, -1 is backward
 
-    uint32_t filtered_adc = adc_read(); // ADC value after filtering, ranges from 0 to 4095. (initialize it so it's not 0 when we start)
+    // Initialize filtered ADC value so it's not 0 when we start. Value ranges from 0 to 4095
+    uint32_t filtered_adc = adc_read(); 
 
     while (true) {
 
@@ -54,17 +55,17 @@ int main() {
 
             // map filtered ADC value to delay in us
             uint32_t delay_us = STEP_DELAY_US_MAX - (uint32_t)((STEP_DELAY_US_MAX - STEP_DELAY_US_MIN) * (uint64_t)filtered_adc / 4095);
+            sleep_us(delay_us);
 
+            // Set motor to next half-step position
             for (int j = 0; j < 4; j++) { 
                 gpio_put(PINS[j], SEQ[step_idx][j]);
             }
-
-            sleep_us(delay_us);
-            
-            step_idx = (step_idx + direction) & 7; // proceed to next step
+            step_idx = (step_idx + direction) & 7;
         }
 
         // Randomly pause for a random length of time
+        // Likelihood that it pauses is 1/PAUSE_PROBABILITY
         if ((rand() % PAUSE_PROBABILITY) == 0) {
             int pause_ms = PAUSE_MS_MIN + (rand() % (PAUSE_MS_MAX-PAUSE_MS_MIN)); 
             sleep_ms(pause_ms);
