@@ -14,10 +14,10 @@
 #define STEP_DELAY_US_MIN 1000 // Min step delay for motor (us)
 #define STEP_DELAY_US_MAX 6000 // Max step delay for motor (us)
 
-static const uint PINS[4] = {IN1, IN2, IN3, IN4};
+static const int PINS[4] = {IN1, IN2, IN3, IN4};
 
 // Define the half-step positions of the motor
-static const uint8_t SEQ[8][4] = {
+static const int SEQ[8][4] = {
     {1,0,0,0},{1,1,0,0},{0,1,0,0},{0,1,1,0},
     {0,0,1,0},{0,0,1,1},{0,0,0,1},{1,0,0,1}
 };
@@ -54,7 +54,7 @@ int main() {
             filtered_adc = (filtered_adc * 7 + adc_read()) / 8; // Read ADC and filter value with EMA filter
 
             // map filtered ADC value to delay in us
-            uint32_t delay_us = STEP_DELAY_US_MAX - (uint32_t)((STEP_DELAY_US_MAX - STEP_DELAY_US_MIN) * (uint64_t)filtered_adc / 4095);
+            uint32_t delay_us = STEP_DELAY_US_MAX - (uint32_t)((STEP_DELAY_US_MAX - STEP_DELAY_US_MIN) * (uint32_t)filtered_adc / 4095);
             sleep_us(delay_us);
 
             // Set motor to next half-step position
@@ -67,7 +67,7 @@ int main() {
         // Randomly pause for a random length of time
         // Likelihood that it pauses is 1/PAUSE_PROBABILITY
         if ((rand() % PAUSE_PROBABILITY) == 0) {
-            int pause_ms = PAUSE_MS_MIN + (rand() % (PAUSE_MS_MAX-PAUSE_MS_MIN)); 
+            uint32_t pause_ms = PAUSE_MS_MIN + (rand() % (PAUSE_MS_MAX - PAUSE_MS_MIN));
             sleep_ms(pause_ms);
         }
 
