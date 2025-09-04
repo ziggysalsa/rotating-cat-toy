@@ -8,7 +8,9 @@
  */
 
 #include "hardware/gpio.h"
+#include "pico/stdlib.h"
 #include "config.h"
+#include "potentiometer.h"
 #include "stepper.h"
 
 /**
@@ -47,3 +49,19 @@ void step_motor(int *step_idx, int direction) {
     }
     *step_idx = (*step_idx + direction) & 7;
 }
+
+/**
+ * Advances motor n half-steps, with a delay between each step dependent
+ * on the potentiometer value.
+ * @param step_idx : pointer to current index in sequence array
+ * @param direction : rotation direction (+1 is forward, -1 is backward)
+ * @param num_steps : number of half-steps to advance
+ */
+void step_n_times(int *step_idx, int direction, int num_steps) {
+    for (int i = 0; i < num_steps; i++) {
+        step_motor(step_idx, direction);
+        uint32_t delay_us = pot_delay_us();
+        sleep_us(delay_us);
+    }
+}
+

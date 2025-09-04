@@ -37,7 +37,10 @@ pico_sdk_init()
 
 add_executable(cat_toy 
     main.c 
-    stepper.c)
+    stepper.c
+    potentiometer.c
+    patterns.c
+    )
 
 pico_set_program_name(cat_toy "cat_toy")
 pico_set_program_version(cat_toy "0.1")
