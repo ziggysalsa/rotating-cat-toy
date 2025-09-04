@@ -2,6 +2,9 @@
 #include "config.h"
 #include "potentiometer.h"
 
+/**
+ * ADC value, filtered to remove jitters
+ */
 static uint32_t filtered_adc;
 
 /**

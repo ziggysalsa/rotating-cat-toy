@@ -8,10 +8,8 @@
  */
 
 #include "pico/stdlib.h"
-#include "hardware/adc.h"
 #include "hardware/gpio.h"
 #include <stdlib.h>
-#include "config.h" 
 #include "stepper.h"
 #include "potentiometer.h"
 #include "patterns.h"
@@ -35,19 +33,10 @@ int main() {
 
     while (true) {
 
-        // Random number of steps (less than one revolution)
-        int num_steps = rand() % (STEPS_PER_REV + 1);
+        // Pick a random pattern to run, and call that pattern's function
+        // with the current half-step position
+        int random_idx = rand() % NUM_PATTERNS;
+        PATTERNS[random_idx](&step_idx);
 
-        // Step random number of steps
-        step_n_times(&step_idx, direction, num_steps);
-
-        // Random pause with probability = 1/PAUSE_PROBABILITY
-        if ((rand() % PAUSE_PROBABILITY) == 0) {
-            uint32_t pause_ms = PAUSE_MS_MIN + (rand() % (PAUSE_MS_MAX - PAUSE_MS_MIN));
-            sleep_ms(pause_ms);
-        }
-
-        // Reverse direction
-        direction = -direction;
     }
 }
