@@ -1,9 +1,12 @@
 /**
  * @file config.h
  * @author Sasha Zelenski
- * @date 2025-09-03
+ * @date 2025-09-04
  * 
  * Config file for cat toy. Contains pin assignments, motor constants, and timing values.
+ * 
+ * @par Changelog:
+ * - 2025-09-04: Initial version.
  */
 
 #ifndef CONFIG_H
@@ -18,11 +21,7 @@
 
 #define STEPS_PER_REV 2048  /**< Number of steps for full rotation of motor */
 
-#define PAUSE_PROBABILITY 3 /**< Probability of pausing between rotations ( P = 1/PAUSE_PROBABILITY) */
-#define PAUSE_MS_MIN 1000 /**< Min pause length (ms) */
-#define PAUSE_MS_MAX 5000 /**< Max pause length (ms) */
-
-#define STEP_DELAY_US_MIN 1000 /**< Min step delay for motor (us) */
-#define STEP_DELAY_US_MAX 6000 /**< Max step delay for motor (us) */
+#define STEP_DELAY_US_MIN 1000 /**< Min step delay for motor (us) - controls motor speed */
+#define STEP_DELAY_US_MAX 6000 /**< Max step delay for motor (us) - controls motor speed */
 
 #endif

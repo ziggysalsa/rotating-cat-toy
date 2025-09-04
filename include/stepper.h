@@ -1,14 +1,17 @@
 /**
  * @file stepper.h
  * @author Sasha Zelenski
- * @date 2025-09-03
+ * @date 2025-09-04
  * 
- * Stepper motor driver header file
+ * Stepper motor driver header file.
+ * 
+ * @par Changelog:
+ * - 2025-09-04: Initial version. 
  */
 
 #ifndef STEPPER_H
 #define STEPPER_H
-#include "config.h"
+#include "include/config.h"
 
 /**
  * GPIO pins for stepper motor

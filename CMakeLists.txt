@@ -36,10 +36,10 @@ pico_sdk_init()
 # Add executable. Default name is the project name, version 0.1
 
 add_executable(cat_toy 
-    main.c 
-    stepper.c
-    potentiometer.c
-    patterns.c
+    src/main.c 
+    src/stepper.c
+    src/potentiometer.c
+    src/patterns.c
     )
 
 pico_set_program_name(cat_toy "cat_toy")

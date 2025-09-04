@@ -1,3 +1,15 @@
+/**
+ * @file potentiometer.h
+ * @author Sasha Zelenski
+ * @date 2025-09-04
+ * 
+ * Header file for reading potentiometer value
+ * and mapping it to a delay in us.
+ * 
+ * @par Changelog:
+ * - 2025-09-04: Initial version. 
+ */
+
 #ifndef POT_H
 #define POT_H
 

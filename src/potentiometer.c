@@ -1,6 +1,18 @@
+/**
+ * @file potentiometer.c
+ * @author Sasha Zelenski
+ * @date 2025-09-04
+ *
+ * Implements functions in @ref potentiometer.h to read potentiometer
+ * value and map it to a delay in us.
+ * 
+ * @par Changelog:
+ * - 2025-09-04: Initial version. 
+ */
+
 #include "hardware/adc.h"
-#include "config.h"
-#include "potentiometer.h"
+#include "include/config.h"
+#include "include/potentiometer.h"
 
 /**
  * ADC value, filtered to remove jitters
@@ -13,8 +25,8 @@ static uint32_t filtered_adc;
 void pot_init() {
     adc_init();
     adc_gpio_init(POT);
-    adc_select_input(2); // GPIO28 = ADC2
-    filtered_adc = adc_read(); // Initialize filtered ADC value (0 to 4095) so it's not 0 when we start
+    adc_select_input(2);
+    filtered_adc = adc_read(); // Initialize filtered ADC value so it's not 0 when we start
 }
 
 /**

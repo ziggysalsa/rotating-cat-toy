@@ -1,17 +1,20 @@
 /**
  * @file stepper.c
  * @author Sasha Zelenski
- * @date 2025-09-03
+ * @date 2025-09-04
  * 
  * Implements functions in @ref stepper.h to control unipolar stepper motor
  * through a ULN2003 driver.
+ * 
+ * @par Changelog:
+ * - 2025-09-04: Initial version. 
  */
 
 #include "hardware/gpio.h"
 #include "pico/stdlib.h"
-#include "config.h"
-#include "potentiometer.h"
-#include "stepper.h"
+#include "include/config.h"
+#include "include/potentiometer.h"
+#include "include/stepper.h"
 
 /**
  * GPIO pins used to drive the stepper motor. 
