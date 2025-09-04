@@ -35,7 +35,9 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(cat_toy cat_toy.c )
+add_executable(cat_toy 
+    main.c 
+    stepper.c)
 
 pico_set_program_name(cat_toy "cat_toy")
 pico_set_program_version(cat_toy "0.1")
@@ -48,6 +50,7 @@ pico_enable_stdio_usb(cat_toy 1)
 target_link_libraries(cat_toy
         pico_stdlib
         hardware_adc
+        hardware_gpio
     )
 
 # Add the standard include files to the build
