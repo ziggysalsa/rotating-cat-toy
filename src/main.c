@@ -8,40 +8,38 @@
  *
  * @par Changelog:
  * - 2025-09-03: Initial version.
- * - 2025-09-04: Moved motor and potentiometer functionality to separate files. Added
- *   usage of movement patterns. Renamed to main.c.
+ * - 2025-09-04: Moved motor and potentiometer functionality to separate files.
+ * Added usage of movement patterns. Renamed to main.c.
  */
 
-#include "pico/stdlib.h"
-#include "hardware/gpio.h"
-#include <stdlib.h>
-#include "include/stepper.h"
-#include "include/potentiometer.h"
 #include "include/patterns.h"
+#include "include/potentiometer.h"
+#include "include/stepper.h"
+#include <pico/stdio.h>
+#include <stdlib.h>
 
 /**
  * Application entry point. Sets up I/O and controls motor.
  */
 int main() {
 
-    // Sets up I/O
-    stdio_init_all();
+  // Sets up I/O
+  stdio_init_all();
 
-    // Set up potentiometer
-    pot_init();
+  // Set up potentiometer
+  pot_init();
 
-    // Set up stepper motor
-    stepper_init();
+  // Set up stepper motor
+  stepper_init();
 
-    // Keep track of which half-step position we're on
-    int step_idx = 0;
+  // Keep track of which half-step position we're on
+  int step_idx = 0;
 
-    while (true) {
+  while (true) {
 
-        // Pick a random pattern to run, and call that pattern's function
-        // with the current half-step position
-        int random_idx = rand() % NUM_PATTERNS;
-        PATTERNS[random_idx](&step_idx);
-
-    }
+    // Pick a random pattern to run, and call that pattern's function
+    // with the current half-step position
+    int random_idx = rand() % NUM_PATTERNS;
+    PATTERNS[random_idx](&step_idx);
+  }
 }
