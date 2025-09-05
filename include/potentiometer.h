@@ -24,6 +24,6 @@ void pot_init();
  * Read and filter potentiometer value, then map it
  * to a delay in us
  */
-uint32_t pot_delay_us();
+int pot_delay_us();
 
 #endif

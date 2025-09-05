@@ -68,7 +68,7 @@ void pattern_03(int *step_idx) {
 
     // 25% chance of pausing before next movement
     if ((rand() % 4) == 0) {
-      uint32_t pause_ms = 1000 + rand() % 5000; // Pause 1-5 seconds
+      int pause_ms = 1000 + rand() % 5000; // Pause 1-5 seconds
       sleep_ms(pause_ms);
     }
 

@@ -61,7 +61,7 @@ void step_motor(int *step_idx, int direction) {
 void step_n_times(int *step_idx, int direction, int num_steps) {
   for (int i = 0; i < num_steps; i++) {
     step_motor(step_idx, direction);
-    uint32_t delay_us = pot_delay_us();
+    int delay_us = pot_delay_us();
     sleep_us(delay_us);
   }
 }
